@@ -18,9 +18,12 @@ try:
 except ImportError as err:
     print(f"couldn't load module. {err}")
     sys.exit(2)
-
-# BEEP is commented out for now because it isn't working on my mac! TODO troubleshoot
-# TODO Make sure csv writes to the Memory-Interface directory, not the terminal's directory (CWD)
+# TODO resizable windows - Aahaan
+# TODO replace the instructions - Charlotte
+# BEEP is commented out for now because it isn't working on my mac! TODO troubleshoot - BOTH!
+# TODO Make sure csv writes to the Memory-Interface directory, not the terminal's directory (CWD) - Aahaan
+# TODO CSV Numbers are weird; sideways concatenation - Charlotte
+# TODO WHERE RE TIMESTAMPS FROM???? - Charlotte
 def beep(frequency=19000, duration=0.3, sample_rate=44100):
     t = np.linspace(0, duration, int(sample_rate * duration), endpoint=False)
     wave = 0.5 * np.sin(2 * np.pi * frequency * t)
