@@ -91,7 +91,7 @@ def main():
             if event.type == QUIT:
                 return
             if past_instructions:
-                if page_num >= global_vars.NUM_PAGES * global_vars.NUM_ROUNDS :
+                if page_num >= global_vars.NUM_PAGES * global_vars.NUM_ROUNDS - 1:
                     screen.blit(instructions_5, (0,0))
                     click_grid.write_score(participant_num)
                     survey_pg.write(participant_num)
@@ -128,19 +128,26 @@ def main():
                         mouse_pos = pygame.mouse.get_pos()
                         survey_pg.update(mouse_pos)
                         survey_pg.draw()
-                else :
+                elif page_num % global_vars.NUM_PAGES == 4 :
                     screen.blit(survey_pg_2, (0,0))
                     if event.type == pygame.KEYDOWN:
                         if event.key == K_RETURN:
                             survey_pg_2.save()
                             screen.blit(survey_pg_2, (0,0)) # Reset selected
                             page_num += 1
-                            mem_grid.arrange_dots()
-                            click_grid.arrange_dots(mem_grid.dot_locs)
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         mouse_pos = pygame.mouse.get_pos()
                         survey_pg_2.update(mouse_pos)
                         survey_pg_2.draw()
+                else :
+                    screen.blit(instructions_4, (0,0))
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == K_RETURN:
+                            page_num += 1
+                            screen.blit(survey_pg_2, (0,0))
+                            mem_grid.arrange_dots()
+                            click_grid.arrange_dots(mem_grid.dot_locs)
+                            screen.blit(mem_display_background, (0, 0))
 
             # The following is code for the instructions
             # It is confusing b/c you need to be able to switch forward/backward

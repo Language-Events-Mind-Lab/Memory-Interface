@@ -7,6 +7,9 @@ except ImportError as err:
     print(f"couldn't load module. {err}")
     sys.exit(2)
 
+# Game Specs
+NUM_ROUNDS = 3
+NUM_PAGES = 6
 # Terminal Colors
 TERMINAL_BLUE = "\033[94m"
 TERMINAL_RED = "\u001b[31m"
@@ -35,17 +38,19 @@ INSTRUCTIONS_0 = ["""CLICK on this page to start!"""]
 INSTRUCTIONS_1 = ["""Your task is to play a simple memory game.""", 
                   """After the instructions, you will see a 4x4 grid with five dots randomly placed.""", 
                   """You will have three seconds to memorize the locations of the dots.""", "", 
-                  """After this, a pause screen will be displayed for the duration of the experiment.""", "",
+                  """After this, a pause screen will be displayed for the duration of the next trial.""", "",
                   """Press RIGHT ARROW to continue."""]
 INSTRUCTIONS_2 = ["""At the end of the experiment, press ENTER again on this window.""", 
                   """You may then click on the boxes where you remember the dots to be.""", 
-                  """Press ENTER to save your responses and close the task.""", 
+                  """Press ENTER to save your responses and move to the next trial.""",
+                  "For this experiment, there will be " + str(NUM_ROUNDS) + " trials", 
                   """Press ENTER to begin, or LEFT ARROW to go back."""]
 INSTRUCTIONS_3 = ["""At the end of the experiment, press ENTER on this window.""", 
                   """A grid will be displayed with a dot in each box.""", 
                   """Click on the dots that correspond to those you saw previously.""",
                   """Press ENTER to save your responses and close the task."""]
-INSTRUCTIONS_4 = ["""Your responses for this trial have been saved. You may move to the next page."""]
+INSTRUCTIONS_4 = ["""Your responses for this trial have been saved.""", 
+                  """You may press ENTER to move to the next page."""]
 INSTRUCTIONS_5 = ["""Thanks for your participation!""", 
                   """You may now close the window."""]
 QUESTION_1 = ["""Do you think this was a 2048 trial?"""]
@@ -69,6 +74,3 @@ FONT_SIZE = 36
 FONT_COLOR = (255, 255, 255)
 BACKGROUND_COLOR = (32, 81, 111)
 
-# Game Specs
-NUM_ROUNDS = 3
-NUM_PAGES = 5

@@ -14,10 +14,13 @@ try:
     import sounddevice as sd
     from socket import *
     from pygame.locals import *
+    import os
 except ImportError as err:
     print(f"couldn't load module. {err}")
     sys.exit(2)
 
+# BEEP is commented out for now because it isn't working on my mac! TODO troubleshoot
+# TODO Make sure csv writes to the Memory-Interface directory, not the terminal's directory (CWD)
 def beep(frequency=19000, duration=0.3, sample_rate=44100):
     t = np.linspace(0, duration, int(sample_rate * duration), endpoint=False)
     wave = 0.5 * np.sin(2 * np.pi * frequency * t)
@@ -59,8 +62,9 @@ def main():
 
     # Load map images
     map_images = []
+    fpath = os.path.dirname(os.path.realpath(__file__))
     for i in range(global_vars.NUM_ROUNDS):
-        img = pygame.image.load(f"maps/map{i+1}.jpg").convert()
+        img = pygame.image.load(f"{fpath}/maps/map{i+1}.jpg").convert()
         img = pygame.transform.scale(img, global_vars.SCREEN_SIZE)
         map_images.append(img)
 
@@ -68,7 +72,6 @@ def main():
     instructions_0 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_0)
     instructions_1 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_1)
     instructions_2 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_2)
-    instructions_3 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_3)
     instructions_4 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_4)
     instructions_5 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_5)
 
@@ -110,7 +113,7 @@ def main():
                 total_time -= clock.tick(60)
             if total_time <= 0 :
                 page_num += 1
-                screen.blit(instructions_3, (0, 0))
+                screen.blit(map_images[page_num // global_vars.NUM_PAGES], (0, 0))
                 timer_started = False
                 total_time = 3000
 
@@ -119,19 +122,22 @@ def main():
                 save_timestamps(participant_num, timestamps)
                 return
             if past_instructions:
-                if page_num >= global_vars.NUM_PAGES * global_vars.NUM_ROUNDS :
+                if page_num >= global_vars.NUM_PAGES * global_vars.NUM_ROUNDS - 1:
                     screen.blit(instructions_5, (0,0))
                     click_grid.write_score(participant_num)
                     survey_pg.write(participant_num)
                     survey_pg_2.write(participant_num)
                     can_time = False
+                # Just as a note, if the event is not KEYDOWN then it won't have a key field
+                # I think this works because python returns none for nonexistent fields
+                # So you probably only need the second part of the condition anyways
                 elif page_num % global_vars.NUM_PAGES == 0 :
                     screen.blit(mem_display_background, (0, 0))
                     if event.type == pygame.KEYDOWN and event.key == K_RETURN:
                         page_num += 1
                         now = time.time()
                         timestamps[f"dots_display_round_{page_num}"] = now - experiment_start_time
-                        beep()
+                        # beep()
                 elif page_num % global_vars.NUM_PAGES == 1 :
                     current_round = page_num // global_vars.NUM_PAGES
                     screen.blit(map_images[current_round], (0, 0))
@@ -139,14 +145,14 @@ def main():
                         page_num += 1
                         now = time.time()
                         timestamps[f"map_display_round_{page_num}"] = now - experiment_start_time
-                        beep()
+                        # beep()
                 elif page_num % global_vars.NUM_PAGES == 2 :
                     if event.type == pygame.KEYDOWN and event.key == K_RETURN:
                         page_num += 1
                         click_grid.tally()
                         now = time.time()
                         timestamps[f"dots_recall_round_{page_num}"] = now - experiment_start_time
-                        beep()
+                        # beep()
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         mouse_pos = pygame.mouse.get_pos()
                         click_grid.update_dots(mouse_pos)
@@ -155,25 +161,32 @@ def main():
                     screen.blit(survey_pg, (0,0))
                     if event.type == pygame.KEYDOWN and event.key == K_RETURN:
                         survey_pg.save()
-                        screen.blit(survey_pg, (0,0))
+                        screen.blit(survey_pg, (0,0)) # TODO figure out how to reset button clicked!
                         page_num += 1
                         screen.blit(survey_pg_2, (0,0))
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         mouse_pos = pygame.mouse.get_pos()
                         survey_pg.update(mouse_pos)
                         survey_pg.draw()
-                else :
+                elif page_num % global_vars.NUM_PAGES == 4 :
                     screen.blit(survey_pg_2, (0,0))
                     if event.type == pygame.KEYDOWN and event.key == K_RETURN:
                         survey_pg_2.save()
-                        screen.blit(survey_pg_2, (0,0))
+                        screen.blit(survey_pg_2, (0,0)) # Reset selected
                         page_num += 1
-                        mem_grid.arrange_dots()
-                        click_grid.arrange_dots(mem_grid.dot_locs)
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         mouse_pos = pygame.mouse.get_pos()
                         survey_pg_2.update(mouse_pos)
                         survey_pg_2.draw()
+                else :
+                    screen.blit(instructions_4, (0,0))
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == K_RETURN:
+                            page_num += 1
+                            screen.blit(survey_pg_2, (0,0))
+                            mem_grid.arrange_dots()
+                            click_grid.arrange_dots(mem_grid.dot_locs)
+                            screen.blit(mem_display_background, (0, 0))
             elif event.type == pygame.MOUSEBUTTONDOWN :
                 if instructions_state == 0:
                     instructions_state = 1
