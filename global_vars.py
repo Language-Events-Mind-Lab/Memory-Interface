@@ -34,21 +34,34 @@ to save their responses.
 USER_EXISTS = TERMINAL_RED + """\n\nThis participant number has been used.
 \nIf this participant number hasn't gone yet, please press Ctrl-C or enter "quit" to quit the program.
 \nYou may need to check the data file for any anomalies.""" + TERMINAL_END
-INSTRUCTIONS_0 = ["""CLICK on this page to start!"""]
-INSTRUCTIONS_1 = ["""Your task is to play a simple memory game.""", 
-                  """After the instructions, you will see a 4x4 grid with five dots randomly placed.""", 
-                  """You will have three seconds to memorize the locations of the dots.""", "", 
-                  """After this, a pause screen will be displayed for the duration of the next trial.""", "",
-                  """Press RIGHT ARROW to continue."""]
-INSTRUCTIONS_2 = ["""At the end of the experiment, press ENTER again on this window.""", 
-                  """You may then click on the boxes where you remember the dots to be.""", 
-                  """Press ENTER to save your responses and move to the next trial.""",
-                  "For this experiment, there will be " + str(NUM_ROUNDS) + " trials", 
-                  """Press ENTER to begin, or LEFT ARROW to go back."""]
-INSTRUCTIONS_3 = ["""At the end of the experiment, press ENTER on this window.""", 
-                  """A grid will be displayed with a dot in each box.""", 
-                  """Click on the dots that correspond to those you saw previously.""",
-                  """Press ENTER to save your responses and close the task."""]
+INSTRUCTIONS_0 = ["", """CLICK on this page to start!"""]
+INSTRUCTIONS_1 = ["""In this experiment, you are the SPEAKER, and your partner is the LISTENER.""",
+                  "",
+                  """You will be shown a series of maps and a simple memory game.""",
+                  "",
+                  """Your objective is to successfully complete both the MAP TASK and the MEMORY TASK""",
+                  "",
+                  """Press RIGHT ARROW to continue"""]
+INSTRUCTIONS_2 = ["""In the MAP TASK, you will be conversing with your partner and giving them directions""",
+                  """to a specified point on the map.""",
+                  "",
+                  """You are both given maps of the same locations, with some slight differences.""",
+                  "",
+                  """You will need to communicate with your partner to help them understand how to""",
+                  """reach the destination point.""",
+                  "",
+                  """Press RIGHT ARROW to continue, or LEFT ARROW to go back"""]
+INSTRUCTIONS_3 = ["""In addition to the MAP TASK, you will also be asked to perform a MEMORY TASK.""", 
+                  "",
+                  """At the beginning of each map trial, you will see 5 dots randomly arranged on a grid""",
+                  """for THREE seconds, after which the map will be displayed.""",
+                  "",
+                  """Your job is to remember this configuration as best you can.""",
+                  "",
+                  """You will be asked to recreate this configuration at the end of each map trial.""",
+                  "",
+                  """Press RIGHT ARROW to continue, or LEFT ARROW to go back"""]
+INSTRUCTIONS_6 = ["", """Press ENTER when ready to display the MEMORY TASK, or LEFT ARROW to go back"""]
 INSTRUCTIONS_4 = ["""Your responses for this trial have been saved.""", 
                   """You may press ENTER to move to the next page."""]
 INSTRUCTIONS_5 = ["""Thanks for your participation!""", 
@@ -59,19 +72,21 @@ QUESTION_2 = ["""How confident are you in your response?"""]
 STORAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "player_data.json")
 
 # Dot Rendering
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 850
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 800
 SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
 DOT_SIZE = (int((170/1200)*SCREEN_WIDTH), int((170/1200)*SCREEN_WIDTH))
 SPACER = int((180.2/1200)*SCREEN_WIDTH)
 START_X = (246.5/1200)*SCREEN_WIDTH
-START_Y = (42.5/800)*SCREEN_HEIGHT
 START_Y = SCREEN_HEIGHT//2-DOT_SIZE[1]*2.1
 
 # Button Rendering
 BUTTON_SIZE = int((55/1200)*SCREEN_WIDTH)
 BUTTON_SPACING = int((80/1200)*SCREEN_WIDTH)
 FONT_SIZE = int(0.03 * SCREEN_WIDTH)
+
+# Text Rendering
+UPPER_TEXT = int((200/800)*SCREEN_HEIGHT)
 
 # Game Colors
 FONT_COLOR = (255, 255, 255)

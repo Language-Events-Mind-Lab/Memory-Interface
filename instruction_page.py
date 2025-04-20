@@ -2,7 +2,7 @@ try:
     import sys
     import pygame
     import utils
-    from global_vars import BACKGROUND_COLOR
+    from global_vars import BACKGROUND_COLOR, UPPER_TEXT
     from socket import *
     from pygame.locals import *
 except ImportError as err:
@@ -15,6 +15,5 @@ class Instructions(pygame.Surface) :
     def __init__(self, screen_size: tuple, text: list) :
         pygame.Surface.__init__(self, screen_size)
         self.convert()
-        self.fill(BACKGROUND_COLOR)
-        top=300           
-        utils.render_text(text, self, top)
+        self.fill(BACKGROUND_COLOR)         
+        utils.render_text(text, self, UPPER_TEXT)
