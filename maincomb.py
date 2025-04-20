@@ -209,7 +209,7 @@ def main():
                         screen.blit(instructions_1, (0, 0))
                     elif instructions_state == 2:
                         screen.blit(instructions_2, (0, 0))
-
+        
         pygame.display.flip()
 
 if __name__ == '__main__': main()
