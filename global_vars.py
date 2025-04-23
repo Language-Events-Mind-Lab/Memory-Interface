@@ -72,8 +72,8 @@ QUESTION_2 = ["""How confident are you in your response?"""]
 STORAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "player_data.json")
 
 # Dot Rendering
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 900
+SCREEN_HEIGHT = 1000
 SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
 DOT_SIZE = (int((170/1200)*SCREEN_WIDTH), int((170/1200)*SCREEN_WIDTH))
 SPACER = int((180.2/1200)*SCREEN_WIDTH)
