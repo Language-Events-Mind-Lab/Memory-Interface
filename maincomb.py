@@ -61,8 +61,14 @@ def main():
 
     map_images = []
     for i in range(global_vars.NUM_ROUNDS):
-        img = pygame.image.load(f"{fpath}/maps/map{i+1}.jpg").convert()
-        img = pygame.transform.scale(img, global_vars.SCREEN_SIZE)
+        img = pygame.image.load(f"{fpath}/maps/map{i+1}.png").convert()
+        height_factor = global_vars.SCREEN_HEIGHT/img.get_rect().height
+        width_factor = global_vars.SCREEN_WIDTH/img.get_rect().width
+        if height_factor < width_factor :
+            img = pygame.transform.scale(img, (img.get_rect().width * height_factor,img.get_rect().height * height_factor))
+        else :
+            img = pygame.transform.scale(img, (img.get_rect().width * width_factor, img.get_rect().height * width_factor))
+        # img = pygame.transform.scale(img, global_vars.SCREEN_SIZE)
         map_images.append(img)
 
     instructions_0 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_0)
@@ -72,6 +78,7 @@ def main():
     instructions_4 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_4)
     instructions_5 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_5)
     instructions_6 = instruction_page.Instructions(global_vars.SCREEN_SIZE, global_vars.INSTRUCTIONS_6)
+    blank = instruction_page.Instructions(global_vars.SCREEN_SIZE, "")
 
     mem_display_background = pygame.Surface(global_vars.SCREEN_SIZE)
     mem_display_background.convert()
@@ -133,8 +140,11 @@ def main():
                         now = time.time()
                         timestamps[f"dotsrecall{current_round}"] = now - experiment_start_time
                         # beep()
-                elif page_num % global_vars.NUM_PAGES == 1:
-                    screen.blit(map_images[current_round - 1], (0, 0))
+                elif page_num % global_vars.NUM_PAGES == 1: # map blitting
+                    screen.blit(blank, (0, 0))
+                    screen.blit(map_images[current_round - 1], 
+                                ((global_vars.SCREEN_WIDTH-map_images[current_round - 1].get_rect().width)/2, 
+                                 (global_vars.SCREEN_HEIGHT-map_images[current_round - 1].get_rect().height)/2))
                     if event.type == pygame.KEYDOWN and event.key == K_RETURN:
                         page_num += 1
                         now = time.time()
