@@ -8,7 +8,7 @@ except ImportError as err:
     sys.exit(2)
 
 # Game Specs
-NUM_ROUNDS = 3
+NUM_ROUNDS = 6
 NUM_PAGES = 6
 # Terminal Colors
 TERMINAL_BLUE = "\033[94m"
